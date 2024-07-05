@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resource_cannot_work_overtime</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(ISNULL(Resource_Start_Regular_Time_Hour_Shadow__c),
+false,
+IF(
+  Resource__r.Overtime_Capable__c == false,
+  IF(Number_of_Hours_Worked_in_Overtime__c &gt; 0, true, false),
+  false
+)
+)</errorConditionFormula>
+    <errorMessage>Resource cannot work overtime</errorMessage>
+</ValidationRule>

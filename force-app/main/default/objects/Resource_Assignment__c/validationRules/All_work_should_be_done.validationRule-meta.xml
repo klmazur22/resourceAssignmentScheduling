@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_work_should_be_done</fullName>
+    <active>false</active>
+    <errorConditionFormula>ROUND((Number_of_Hours_Worked__c* Resource__r.Performance__c), 0) &lt;&gt;  ROUND(Work_Order__r.Amount_of_Work__c,0)</errorConditionFormula>
+    <errorMessage>Work order should be done according to performance.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Hours_spent_in_Overtime_Hours__c</fullName>
+    <externalId>false</externalId>
+    <label>Total Hours spent in Overtime Hours</label>
+    <summarizedField>Resource_Assignment__c.Number_of_Hours_Worked_in_Overtime__c</summarizedField>
+    <summaryForeignKey>Resource_Assignment__c.Schedule__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

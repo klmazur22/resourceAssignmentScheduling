@@ -1,0 +1,15 @@
+<apex:page controller="PageController" lightningStylesheets="true">
+    <apex:slds />
+    <apex:includeLightning />
+    <apex:form >
+        <div class="slds slds-box">
+        <apex:selectList multiselect="false" value="{!selectedWeek}" size="1" >
+            <apex:selectOptions value="{!weeks}"></apex:selectOptions>
+        </apex:selectList>
+        <apex:selectList multiselect="false" size="1" value="{!selectedScheduler}">
+            <apex:selectOptions value="{!schedulers}"></apex:selectOptions>
+        </apex:selectList>
+        <apex:commandButton action="{!run}" title="Run" value="Run"/>
+        </div>
+    </apex:form>
+</apex:page>

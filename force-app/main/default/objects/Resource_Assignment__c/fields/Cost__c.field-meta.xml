@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cost__c</fullName>
+    <externalId>false</externalId>
+    <formula>(Number_of_Hours_Worked_in_Regular_Time__c *  Resource_Cost_Regular_Shadow__c)  + (Number_of_Hours_Worked_in_Overtime__c *  Resource_Cost_Overtime_Shadow__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Cost</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

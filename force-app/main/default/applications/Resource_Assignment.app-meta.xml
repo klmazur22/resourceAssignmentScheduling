@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <defaultLandingTab>standard-home</defaultLandingTab>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Resource Assignment</label>
+    <logo>Resource_Assignment/Logo_small.png</logo>
+    <tabs>Work_Order__c</tabs>
+    <tabs>Resource__c</tabs>
+    <tabs>Week__c</tabs>
+    <tabs>Schedule__c</tabs>
+    <tabs>Run_Scheduler</tabs>
+    <tabs>Resource_Assignment__c</tabs>
+</CustomApplication>
