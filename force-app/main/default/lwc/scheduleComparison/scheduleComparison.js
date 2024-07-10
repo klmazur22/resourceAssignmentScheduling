@@ -68,18 +68,39 @@ export default class ScheduleComparison extends LightningElement {
                             backgroundColor: '#D8230D',
                             },
                         ]
-                    }
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        scales: {
+                          x: {
+                            stacked: true,
+                          },
+                          y: {
+                            stacked: true
+                          }
+                        },
+                        plugins: {
+                          legend: {
+                            position: 'right',
+                          },
+                          title: {
+                            display: true,
+                            text: 'Work Orders Assignment'
+                          }
+                        }
+                      },
                 };
                 let config2 = {
                     type: "bar",
                     data: {
                         labels: this.labels,
                         datasets: [
-                            {
+                            /*{
                             label: 'Total cost',
                             data: this.totalCost,
                             backgroundColor: '#0076D1',
-                            },
+                            },*/
                             {
                             label: 'Labour cost',
                             data: this.labourCost,
@@ -96,7 +117,28 @@ export default class ScheduleComparison extends LightningElement {
                             backgroundColor: '#076189',
                             },
                         ]
-                    }
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        scales: {
+                          x: {
+                            stacked: true,
+                          },
+                          y: {
+                            stacked: true
+                          }
+                        },
+                        plugins: {
+                          legend: {
+                            position: 'right',
+                          },
+                          title: {
+                            display: true,
+                            text: 'Total Cost + distribution of cost'
+                          }
+                        }
+                      },
                 };
                 let config3 = {
                     type: "bar",
@@ -114,7 +156,28 @@ export default class ScheduleComparison extends LightningElement {
                             backgroundColor: '#D97D0D',
                             },
                         ]
-                    }
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        scales: {
+                          x: {
+                            stacked: true,
+                          },
+                          y: {
+                            stacked: true
+                          }
+                        },
+                        plugins: {
+                          legend: {
+                            position: 'right',
+                          },
+                          title: {
+                            display: true,
+                            text: 'Hours spent'
+                          }
+                        }
+                      },
                 };
                 this.setupChart(config1, 'chart1');
                 this.setupChart(config2, 'chart2');
