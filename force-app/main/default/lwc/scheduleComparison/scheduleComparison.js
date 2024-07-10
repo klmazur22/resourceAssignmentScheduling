@@ -7,6 +7,7 @@ import getSchedulesByWeek from '@salesforce/apex/AssignmentChartDataProvider.get
 export default class ScheduleComparison extends LightningElement {
     @api recordId;
     @api weekid;
+    @api variant = 'Vertical';
     chart;
     isChartJsInitialized = false;
 
@@ -52,141 +53,28 @@ export default class ScheduleComparison extends LightningElement {
                 this.overtimeHours.push(schedule.Total_Hours_spent_in_Overtime_Hours__c);
             });
             try {
-                let config1 = {
-                    type: "bar",
-                    data: {
-                        labels: this.labels,
-                        datasets: [
-                            {
-                            label: 'Assigned Work Orders',
-                            data: this.assignedWorkOrders,
-                            backgroundColor: '#0E9EDA',
-                            },
-                            {
-                            label: 'Unassigned Work Orders',
-                            data: this.unassignedWorkOrders,
-                            backgroundColor: '#D8230D',
-                            },
-                        ]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        scales: {
-                          x: {
-                            stacked: true,
-                          },
-                          y: {
-                            stacked: true
-                          }
-                        },
-                        plugins: {
-                          legend: {
-                            position: 'right',
-                          },
-                          title: {
-                            display: true,
-                            text: 'Work Orders Assignment'
-                          }
-                        }
-                      },
-                };
-                let config2 = {
-                    type: "bar",
-                    data: {
-                        labels: this.labels,
-                        datasets: [
-                            /*{
-                            label: 'Total cost',
-                            data: this.totalCost,
-                            backgroundColor: '#0076D1',
-                            },*/
-                            {
-                            label: 'Labour cost',
-                            data: this.labourCost,
-                            backgroundColor: '#08AAED',
-                            },
-                            {
-                            label: 'Fine for late work orders',
-                            data: this.lateWorkFine,
-                            backgroundColor: '#04E1CA',
-                            },
-                            {
-                            label: 'Fine for unfinished work orders',
-                            data: this.unfinishedWorkFine,
-                            backgroundColor: '#076189',
-                            },
-                        ]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        scales: {
-                          x: {
-                            stacked: true,
-                          },
-                          y: {
-                            stacked: true
-                          }
-                        },
-                        plugins: {
-                          legend: {
-                            position: 'right',
-                          },
-                          title: {
-                            display: true,
-                            text: 'Total Cost + distribution of cost'
-                          }
-                        }
-                      },
-                };
-                let config3 = {
-                    type: "bar",
-                    data: {
-                        labels: this.labels,
-                        datasets: [
-                            {
-                            label: 'Regular Time Hours',
-                            data: this.regularTimeHours,
-                            backgroundColor: '#182CCE',
-                            },
-                            {
-                            label: 'Overtime Hours',
-                            data: this.overtimeHours,
-                            backgroundColor: '#D97D0D',
-                            },
-                        ]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        scales: {
-                          x: {
-                            stacked: true,
-                          },
-                          y: {
-                            stacked: true
-                          }
-                        },
-                        plugins: {
-                          legend: {
-                            position: 'right',
-                          },
-                          title: {
-                            display: true,
-                            text: 'Hours spent'
-                          }
-                        }
-                      },
-                };
+                const config1 = new Config(this.labels, 'Work Orders Assignment', this.variant);
+                config1.addDataset('Assigned Work Orders', this.assignedWorkOrders, '#0E9EDA');
+                config1.addDataset('Unassigned Work Orders', this.unassignedWorkOrders, '#D8230D');
+                const config2 = new Config(this.labels, 'Cost', this.variant);
+                if(this.variant !== 'Horizontal'){
+                    // show Total cost parameter only for vertical bar
+                    config2.addDataset('Total cost', this.totalCost, '#0076D1');
+                }
+                config2.addDataset('Labour cost', this.labourCost, '#08AAED');
+                config2.addDataset('Fine for late work orders', this.lateWorkFine, '#04E1CA');
+                config2.addDataset('Fine for unfinished work orders', this.unfinishedWorkFine, '#076189');
+                const config3 = new Config(this.labels, 'Hours spent', this.variant);
+                config3.addDataset('Regular Time Hours', this.regularTimeHours, '#182CCE');
+                config3.addDataset('Overtime Hours', this.overtimeHours, '#D97D0D');
                 this.setupChart(config1, 'chart1');
                 this.setupChart(config2, 'chart2');
                 this.setupChart(config3, 'chart3');
             } catch (error) {
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title: 'Error setting canvas',
-                        message: error.message,
+                        title: 'Error!',
+                        message: 'Error setting canvas: ' + error.message,
                         variant: 'error',
                     }),
                 );
@@ -195,8 +83,8 @@ export default class ScheduleComparison extends LightningElement {
         .catch(error => {
             this.dispatchEvent(
                 new ShowToastEvent({
-                    title: 'Schedule not retrieved',
-                    message: error.message,
+                    title: 'Error!',
+                    message: 'Schedule not retrieved: ' + error.message,
                     variant: 'error',
                 }),
             );
@@ -208,5 +96,50 @@ export default class ScheduleComparison extends LightningElement {
         this.template.querySelector('.' + chartName).appendChild(canvas);
         const ctx = canvas.getContext('2d');
         this.chart = new window.Chart(ctx, config);
+    }
+}
+
+class Config {
+    constructor(labels, title, variant){
+        this.type = "bar";
+        this.responsive = true;
+        this.data = {
+            labels: labels,
+            datasets: []
+        };
+        this.options = {
+            plugins: {
+                title: {
+                display: true,
+                text: title
+                }
+            }
+        }
+        if(variant === 'Horizontal'){
+            this.makeHorizontal();
+        }
+    }
+
+    addDataset(label, data, backgroundColor){
+        this.data.datasets.push({
+            label: label,
+            data: data,
+            backgroundColor: backgroundColor,
+        });
+    }
+
+    makeHorizontal(){
+        this.options.indexAxis = 'y';
+        this.options.scales = {
+            x: {
+                stacked: true,
+            },
+            y: {
+                stacked: true
+            }
+        };
+        /*this.options.plugins.legend = {
+            position: 'right',
+        };*/
     }
 }

@@ -5,7 +5,6 @@ export default class ScheduleComparisonWithRecordPicker extends LightningElement
     get recordNotChosen(){return !this.recordId;}
 
     handleChange(event) {
-        console.log('event.detail: ' + event.detail);
         this.recordId = event.detail.recordId;
     }
 }
