@@ -1,7 +1,11 @@
 <template>
-    <lightning-record-picker label="Choose a week to compare schedules" placeholder="Enter week number" object-api-name="Week__c" onchange={handleChange}></lightning-record-picker>
+    <lightning-record-picker label="Enter a week to compare schedules" 
+                             placeholder="Enter week number" 
+                             object-api-name="Week__c" 
+                             onchange={handleChange} 
+                             class="slds-var-m-bottom_medium"></lightning-record-picker>
     <template lwc:if={recordNotChosen}>
-        <p>Choose a week to show schedules</p>
+        <p>Week is not chosen</p>
     </template>
     <template lwc:else>
         <c-schedule-comparison weekid={recordId} variant="Horizontal"></c-schedule-comparison>

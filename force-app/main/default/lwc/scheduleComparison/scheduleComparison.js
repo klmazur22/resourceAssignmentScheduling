@@ -2,13 +2,12 @@ import { LightningElement, api } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
 import chartjs from '@salesforce/resourceUrl/ChartJS';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import getSchedulesByWeek from '@salesforce/apex/AssignmentChartDataProvider.getSchedulesByWeek';
+import getSchedulesByWeek from '@salesforce/apex/ScheduleComparisonController.getSchedulesByWeek';
 
 export default class ScheduleComparison extends LightningElement {
     @api recordId;
     @api weekid;
     @api variant = 'Vertical';
-    chart;
     isChartJsInitialized = false;
 
     async renderedCallback() {
@@ -22,7 +21,7 @@ export default class ScheduleComparison extends LightningElement {
             // if weekid is not set by parent LWC, take recordId from the page
             this.weekid = this.recordId;
         }
-        this.createSchedule();
+        this.createCharts();
     }
 
     schedules = [];
@@ -36,7 +35,7 @@ export default class ScheduleComparison extends LightningElement {
     regularTimeHours = [];
     overtimeHours = [];
 
-    createSchedule(){
+    createCharts(){
         getSchedulesByWeek({ weekId: this.weekid })
         .then(data => {
             this.schedules = data;
@@ -110,8 +109,8 @@ class Config {
         this.options = {
             plugins: {
                 title: {
-                display: true,
-                text: title
+                    display: true,
+                    text: title
                 }
             }
         }
