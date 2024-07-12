@@ -22,6 +22,12 @@
                 <identifier>flexipage_reportChart</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>scheduleComparisonWithRecordPicker</componentName>
+                <identifier>c_scheduleComparisonWithRecordPicker</identifier>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>top</name>
         <type>Region</type>
